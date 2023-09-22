@@ -12,6 +12,7 @@ export function WebVitals(props: { apiKey: string, children: ReactNode, dataset:
       headers: {
         contentType: 'application/json',
         'x-api-key': props.apiKey,
+        'user-agent': 'baselime-react-rum/0.1.2'
       },
       body: JSON.stringify([{ ...metric, data: metric.entries[0], entries: undefined }]),
     })
@@ -21,14 +22,31 @@ export function WebVitals(props: { apiKey: string, children: ReactNode, dataset:
     /**
      * Don't send anything for localhost
      */
-    if(window.location.hostname === "localhost") return
+    // if(window.location.hostname === "localhost") return
     onCLS(reportWebVitals)
     onFCP(reportWebVitals)
     onINP(reportWebVitals)
     onLCP(reportWebVitals)
     onTTFB(reportWebVitals)
     onFID(reportWebVitals)
+    onPageView(reportWebVitals)
   }, [])
 
   return props.children;
+}
+
+function onPageView(callback: Function) {
+  callback({
+    name: "PAGE_VIEW",
+    entries: [{
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      lanuage: navigator.language,
+      os: navigator.oscpu || navigator.platform,
+      userAgent: navigator.userAgent,
+      url: window.location.href,
+    }],
+    hostname: window.location.hostname,
+    path: window.location.pathname,
+    value: 1
+  });
 }
