@@ -25,6 +25,7 @@
     "react": "^17.0.1"
   },
   "devDependencies": {
+    "@release-it/keep-a-changelog": "^4.0.0",
     "release-it": "^16.1.5",
     "tsup": "^7.2.0"
   }
