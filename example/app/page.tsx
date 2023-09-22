@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { WebVitals } from '../../dist/index';
 
-const apiKey = 'be1ad53b0d4d7234f14ce6a35f15e76e15c8746e';
+const apiKey = process.env.NEXT_PUBLIC_BASELIME_KEY;
 
 export default function Home() {
 
