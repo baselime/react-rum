@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup index.ts "
+    "build": "tsup index.ts ",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "react": "^17.0.1"
   },
   "devDependencies": {
+    "release-it": "^16.1.5",
     "tsup": "^7.2.0"
   }
 }

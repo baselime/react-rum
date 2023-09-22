@@ -1,0 +1,80 @@
+# Build binaries for macOS and Linux, publish Node.js packages, create release
+name: build-publish-release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish-node-packages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Build and publish to npm registry
+        run: |
+          npm ci
+          npm run build
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: "@baselime"
+
+      - run: echo "registry=https://npm.pkg.github.com/@baselime" >> .npmrc
+
+      - name: Publish to GitHub registry
+        continue-on-error: true
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  notify-community:
+    needs: [publish-node-packages]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get version from tag
+        id: tag_name
+        run: |
+          echo ::set-output name=current_version::${GITHUB_REF#refs/tags/v}
+      - name: Post to the community Slack channel
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          channel-id: 'C04KT9JNRHS'
+          payload: |
+            {
+              "text": "[Release] Baselime React Rum v${{ steps.tag_name.outputs.current_version }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*[Release] Baselime React RumCLI v${{ steps.tag_name.outputs.current_version }}*"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<https://github.com/Baselime/lambda-logger/releases/tag/v${{ steps.tag_name.outputs.current_version }}|https://github.com/Baselime/lambda-logger/releases/tag/v${{ steps.tag_name.outputs.current_version }}>"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

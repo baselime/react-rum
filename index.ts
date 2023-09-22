@@ -24,16 +24,7 @@ export function WebVitals(props: { apiKey: string, children: ReactNode, dataset:
     onLCP(reportWebVitals)
     onTTFB(reportWebVitals)
     onFID(reportWebVitals)
-    // onPageView(reportWebVitals)
   }, [])
 
   return props.children;
 }
-
-// function onPageView(callback:Function) {
-//   const country = window.navigator.language
-//   const device = window.navigator.userAgent
-//   const os = window.navigator.platform
-//   const browser = window.navigator.appCodeName
-//   callback(window.allthethings)
-// }
