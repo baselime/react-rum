@@ -4,7 +4,7 @@ name: build-publish-release
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - '*.*.*'
 
 jobs:
   publish-node-packages:
