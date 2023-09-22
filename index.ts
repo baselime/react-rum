@@ -18,6 +18,10 @@ export function WebVitals(props: { apiKey: string, children: ReactNode, dataset:
   }
 
   useEffect(() => {
+    /**
+     * Don't send anything for localhost
+     */
+    if(window.location.hostname === "localhost") return
     onCLS(reportWebVitals)
     onFCP(reportWebVitals)
     onINP(reportWebVitals)
