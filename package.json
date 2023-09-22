@@ -1,0 +1,29 @@
+{
+  "name": "@baselime/react-rum",
+  "version": "0.1.0",
+  "description": "Optimise the real world performance of your react applications",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup index.ts "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baselime/react-rum.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/baselime/react-rum/issues"
+  },
+  "homepage": "https://github.com/baselime/react-rum#readme",
+  "dependencies": {
+    "web-vitals": "^3.4.0"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1"
+  },
+  "devDependencies": {
+    "tsup": "^7.2.0"
+  }
+}
