@@ -10,13 +10,15 @@ npm i @baselime/react-rum
 
 Add the BaselimeRum Component at the root of your application 
 
+Create a dataset in baselime for the data
+
 Generate a Baselime Public API Key and add it as a property
 ```tsx
 
 function Page({ child }) {
 
 return (
-    <BaselimeRum apiKey={apiKey} environment="vercel-vercel-fan-club" dataset="web-vitals">
+    <BaselimeRum apiKey={apiKey} service="my-website" dataset="web-vitals">
         {child}
     </BaselimeRum>)
 }
