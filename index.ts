@@ -12,7 +12,7 @@ export function WebVitals(props: { apiKey: string, children: ReactNode, dataset:
       headers: {
         contentType: 'application/json',
         'x-api-key': props.apiKey,
-        'user-agent': 'baselime-react-rum/0.1.2'
+        'user-agent': '@baselime/react-rum/0.1.2'
       },
       body: JSON.stringify([{ ...metric, data: metric.entries[0], entries: undefined }]),
     })
