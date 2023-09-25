@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 * Don't send events for local host
+* Page view metric
 ## [0.1.2] - 2023-09-22
 
 * SETUP CI

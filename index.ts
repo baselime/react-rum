@@ -22,7 +22,7 @@ export function WebVitals(props: { apiKey: string, children: ReactNode, dataset:
     /**
      * Don't send anything for localhost
      */
-    // if(window.location.hostname === "localhost") return
+    if(window.location.hostname === "localhost") return
     onCLS(reportWebVitals)
     onFCP(reportWebVitals)
     onINP(reportWebVitals)
