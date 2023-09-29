@@ -1,5 +1,5 @@
-"use client"
-import { ReactNode, useEffect } from 'react'
+'use client'
+import React, { ReactNode, useEffect } from 'react'
 import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals'
 
 export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, enableLocal?: boolean, children: ReactNode, dataset?: string, service: string, url?: string }) {
