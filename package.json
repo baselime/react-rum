@@ -1,6 +1,6 @@
 {
   "name": "@baselime/react-rum",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Optimise the real world performance of your react applications",
   "main": "dist/index.js",
   "scripts": {
