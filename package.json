@@ -22,7 +22,7 @@
     "web-vitals": "^3.4.0"
   },
   "peerDependencies": {
-    "react": "^17.0.1"
+    "react": ">17.0.0"
   },
   "devDependencies": {
     "@release-it/keep-a-changelog": "^4.0.0",
