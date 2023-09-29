@@ -2,7 +2,7 @@
 import { ReactNode, useEffect } from 'react'
 import { Metric, onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals'
 
-export function WebVitals(props: { apiKey: string, children: ReactNode, dataset: string, service: string, url?: string }) {
+export function BaselimeRum(props: { apiKey: string, children: ReactNode, dataset: string, service: string, url?: string }) {
 
   async function reportWebVitals(metric: Metric) {
 
