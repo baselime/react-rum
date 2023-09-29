@@ -18,7 +18,7 @@ Generate a Baselime Public API Key and add it as a property
 function Page({ child }) {
 
 return (
-    <BaselimeRum apiKey={apiKey} service="my-website" dataset="web-vitals">
+    <BaselimeRum apiKey={apiKey} service="my-app" enableWebVitals enableLocal>
         {child}
     </BaselimeRum>)
 }
