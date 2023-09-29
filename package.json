@@ -3,11 +3,31 @@
   "version": "0.1.6",
   "description": "Optimise the real world performance of your react applications",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup index.ts ",
+    "build": "tsup",
     "release": "release-it"
   },
+  "tsup": {
+    "entry": [
+      "index.ts"
+    ],
+    "treeshake": true,
+    "sourcemap": "inline",
+    "minify": true,
+    "clean": true,
+    "dts": true,
+    "splitting": false,
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "external": [
+      "react"
+    ]
+  },
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/baselime/react-rum.git"
@@ -22,11 +42,13 @@
     "web-vitals": "^3.4.0"
   },
   "peerDependencies": {
-    "react": ">17.0.0"
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@release-it/keep-a-changelog": "^4.0.0",
+    "@types/react": "^18.2.23",
     "release-it": "^16.1.5",
-    "tsup": "^7.2.0"
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
   }
 }

@@ -1,10 +1,10 @@
 "use client"
 import { ReactNode, useEffect } from 'react'
-import { Metric, onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals'
+import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals'
 
 export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, enableLocal?: boolean, children: ReactNode, dataset?: string, service: string, url?: string }) {
 
-  async function reportWebVitals(metric: Metric) {
+  async function reportWebVitals(metric: any) {
 
     const namespace = metric.name;
     await fetch(`${props.url || "https://events.baselime.io/v1"}/${props.dataset || "web"}/${props.service}/${namespace}`, {
@@ -46,7 +46,7 @@ function onPageView(callback: Function) {
     entries: [{
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       lanuage: navigator.language,
-      os: navigator.oscpu || navigator.platform,
+      os: navigator['oscpu'] || navigator.platform,
       userAgent: navigator.userAgent,
       url: window.location.href,
     }],
