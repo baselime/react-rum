@@ -1,8 +1,13 @@
 'use client'
-import React, { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals'
+import { default as Cookies } from 'js-cookie';
 
-export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, enableLocal?: boolean, children: ReactNode, dataset?: string, service: string, url?: string }) {
+export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, enableLocal?: boolean, children: ReactNode, dataset?: string, service: string, url?: string, userId?: string, sessionDurationInDays?: number }) {
+
+  const userId = useRef(props.userId);
+  const sessionId = useRef(getUniqueSessionId(props.sessionDurationInDays || 1));
+  const pageLoadId = useRef(crypto.randomUUID());
 
   async function reportWebVitals(metric: any) {
 
@@ -15,7 +20,7 @@ export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, 
         'user-agent': '@baselime/react-rum/0.1.5',
         'library': '@baselime/react-rum/0.1.5'
       },
-      body: JSON.stringify([{ ...metric, data: metric.entries[0], entries: undefined }]),
+      body: JSON.stringify([{ ...metric, data: metric.entries[0], entries: undefined, userId: userId.current, sessionId: sessionId.current, pageLoadId: pageLoadId.current }]),
     })
   }
 
@@ -54,4 +59,13 @@ function onPageView(callback: Function) {
     path: window.location.pathname,
     value: 1
   });
+}
+
+function getUniqueSessionId(expires: number) {
+  const sessionId = Cookies.get('baselime-session-id')
+
+  if(!sessionId) {
+    Cookies.set('baselime-session-id', crypto.randomUUID(), { expires })
+  }
+  return Cookies.get('baselime-session-id')
 }

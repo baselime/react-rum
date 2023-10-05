@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/baselime/react-rum#readme",
   "dependencies": {
+    "js-cookie": "^3.0.5",
     "web-vitals": "^3.4.0"
   },
   "peerDependencies": {
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@release-it/keep-a-changelog": "^4.0.0",
+    "@types/js-cookie": "^3.0.4",
     "@types/react": "^18.2.23",
     "release-it": "^16.1.5",
     "tsup": "^7.2.0",

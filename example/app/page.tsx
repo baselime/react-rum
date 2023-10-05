@@ -1,7 +1,7 @@
 
 import Image from 'next/image'
 import React from 'react'
-import { BaselimeRum } from '@baselime/react-rum';
+import { BaselimeRum } from '../../dist';
 
 const apiKey = process.env.NEXT_PUBLIC_BASELIME_KEY;
 
