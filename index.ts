@@ -3,10 +3,10 @@ import { ReactNode, useEffect, useRef } from 'react'
 import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals'
 import { default as Cookies } from 'js-cookie';
 
-export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, enableLocal?: boolean, children: ReactNode, dataset?: string, service: string, url?: string, userId?: string, sessionDurationInDays?: number }) {
+export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, enableLocal?: boolean, children: ReactNode, dataset?: string, service: string, url?: string, userId?: string }) {
 
   const userId = useRef(props.userId);
-  const sessionId = useRef(getUniqueSessionId(props.sessionDurationInDays || 1));
+  const sessionId = useRef(getUniqueSessionId());
   const pageLoadId = useRef(crypto.randomUUID());
 
   async function reportWebVitals(metric: any) {
@@ -61,11 +61,11 @@ function onPageView(callback: Function) {
   });
 }
 
-function getUniqueSessionId(expires: number) {
+function getUniqueSessionId() {
   const sessionId = Cookies.get('baselime-session-id')
 
   if(!sessionId) {
-    Cookies.set('baselime-session-id', crypto.randomUUID(), { expires })
+    Cookies.set('baselime-session-id', crypto.randomUUID())
   }
   return Cookies.get('baselime-session-id')
 }
