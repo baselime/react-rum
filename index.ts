@@ -11,7 +11,7 @@ export function BaselimeRum(props: { apiKey: string, enableWebVitals?: boolean, 
 
   async function reportWebVitals(metric: any) {
 
-    const namespace = metric.name;
+    const namespace = window.location.pathname;
     await fetch(`${props.url || "https://events.baselime.io/v1"}/${props.dataset || "web"}/${props.service}/${namespace}`, {
       method: 'POST',
       headers: {
