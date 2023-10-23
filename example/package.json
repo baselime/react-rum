@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@baselime/react-rum": "^0.1.8",
+    "@baselime/react-rum": "^0.1.10",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
