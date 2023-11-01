@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 2023-10-23
 
 - rewrite to make extensible
+- batching
+- error boundaries
+- sendEvent
+- capture exceptions
   
 ## [0.1.12] - 2023-10-23
 
