@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <BaselimeRum apiKey={apiKey as string} enableWebVitals enableLocal>
+        <BaselimeRum apiKey={apiKey as string} enableWebVitals  fallback={<>Its broken</>}>
           {children}
         </BaselimeRum>
       </body>

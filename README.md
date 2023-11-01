@@ -181,14 +181,14 @@ Once the data is captured, you can query, search and analyse your data in the [B
 
 ## Props
 
-| Parameter           | Description                                                                                                  |
-|---------------------|--------------------------------------------------------------------------------------------------------------|
-| `apiKey`            | Your Baselime API key for authentication and authorization.                                      |
-| `enableWebVitals`   | (Optional) A boolean flag indicating whether to enable tracking of web vitals.               |
-| `enableLocal`       | (Optional) A boolean flag indicating whether to enable local tracking.                       |
-| `dataset`           | (Optional) The dataset to store the data to. Defaults to `web`.                      |
-| `service`           | The name of the service or application being monitored.                  |
-| `fallback`          | A fallback UI component in case the application crashes |
+| Parameter           | Description                                                                     |
+|---------------------|---------------------------------------------------------------------------------|
+| `apiKey`            | Your Baselime API key for authentication and authorization.                     |
+| `enableWebVitals`   | (Optional) A boolean flag indicating whether to enable tracking of web vitals.  |
+| `enableLocal`       | (Optional) A boolean flag indicating whether to enable local tracking.          |
+| `dataset`           | (Optional) The dataset to store the data to. Defaults to `web`.                 |
+| `service`           | The name of the application being monitored. Defaults to the hostname.          |
+| `fallback`          | A fallback UI component in case the application crashes                         |
 
 ## License
 
