@@ -6,7 +6,7 @@ export class DispatchQueue {
     queue: any[];
     queueSize: 500;
     duration: 1000
-    timeout: NodeJS.Timeout;
+    timeout: null | ReturnType<typeof setTimeout> = null;
     config: BaselimeRumConfig
     constructor({ config }) {
         this.config = config;
