@@ -1,19 +1,13 @@
 'use client'
 import Image from 'next/image'
 import React from 'react'
-import { BaselimeErrorBoundary, } from '../../dist';
-import Link from 'next/link';
+import { BaselimeRum, BaselimeErrorBoundary, useBaselimeRum } from '../../../dist';
 
-
-const apiKey = process.env.NEXT_PUBLIC_BASELIME_KEY;
 
 export default function Home() {
   const [broken, setBroken] = React.useState(false)
   return (
-   
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Link href="/user">User</Link>
-
         <button onClick={() => {
           setBroken(true)
         }} >
@@ -26,18 +20,28 @@ export default function Home() {
             priority
           />
         </button>
-        <BaselimeErrorBoundary fallback={<div>Oh No</div>} onError={(error) => console.log(error)}>
+        <BaselimeErrorBoundary fallback={<div>Oh No</div>}>
           <BrokenComponent broken={broken} />
         </BaselimeErrorBoundary>
       </main>
   )
 }
 
+function UserProfile({}) { 
+    const { sendEvent } = useBaselimeRum();
+    return <button onClick={() => sendEvent({})}>
+        User Profile
+    </button>
+}
+
 function BrokenComponent({ broken }: { broken: boolean}) {
-  if(broken) {
-    throw new Error('I am broken')
+  const stuff = {
+
   }
   
 
-  return <div>Broken</div>
+  return (<div>Broken
+
+    <button onClick={() => stuff.break()}></button>
+  </div>)
 }

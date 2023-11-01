@@ -1,22 +1,32 @@
 'use client'
-import { ReactNode } from 'react'
+import { ReactNode, useState, useEffect, ReactElement, JSXElementConstructor, FunctionComponent, Component } from 'react'
 
 import { default as Cookies } from 'js-cookie';
 
-import { BaselimeContext } from './context.tsx';
+import { BaselimeContext, BaselimeRumConfig } from './context.tsx';
 import { WebVitals } from './web-vitals.ts';
+import { DispatchQueue } from './dispatch-queue.ts';
+import { BaselimeErrorBoundary } from './error-boundary.tsx';
+import { FallbackProps, ErrorBoundaryPropsWithFallback } from 'react-error-boundary';
+export { useBaselimeRum } from './context.tsx';
+export { BaselimeErrorBoundary } from './error-boundary.tsx';
 
-interface BaselimeRumConfig {
+export interface BaselimeRumProps {
   apiKey: string,
-  enableWebVitals?: boolean,
-  enableLocal?: boolean,
-  children: ReactNode,
   dataset?: string,
   service?: string,
+  namespace?: string,
   url?: string,
-  userId?: string
+  userId?: string,
+  sessionId?: string,
+  fallback?: ReactElement<unknown, string | FunctionComponent | typeof Component> | null
+  fallbackRender?: ErrorBoundaryPropsWithFallback["fallbackRender"]
+  pageLoadId?: string,
+  enableLocal?: boolean,
+  enableWebVitals?: boolean
+  children: ReactElement<any, string | JSXElementConstructor<any>>
 }
-export function BaselimeRum(props: BaselimeRumConfig) {
+export function BaselimeRum(props: BaselimeRumProps) {
 
   const sessionId = Cookies.get('baselime-session-id')
 
@@ -24,21 +34,38 @@ export function BaselimeRum(props: BaselimeRumConfig) {
     Cookies.set('baselime-session-id', crypto.randomUUID())
   }
 
-  return (<BaselimeContext.Provider value={{
+  const initialData: BaselimeRumConfig = {
     userId: props.userId,
     sessionId: Cookies.get('baselime-session-id'),
     pageLoadId: crypto.randomUUID(),
-    namespace: window.location.pathname,
+    namespace: props.namespace,
     apiKey: props.apiKey,
     dataset: props.dataset || "web",
-    service: props.service || window.location.hostname,
+    service: props.service,
     url: props.url || "https://events.baselime.io/v1",
     enableLocal: props.enableLocal || false,
-    enableWebVitals: props.enableWebVitals || false
-  }}>
-    <WebVitals>
-      {props.children}
-    </WebVitals>
-  </BaselimeContext.Provider >
+    enableWebVitals: props.enableWebVitals || false,
+  }
+
+
+  const [config, setConfig] = useState(initialData)
+
+  const [queue, setQueue] = useState(new DispatchQueue({ config }))
+
+  useEffect(() => {
+    /** If config changes rebuild the queue */
+    setQueue(new DispatchQueue({ config }))
+    return () => {
+      queue.flush()
+    }
+  }, [config])
+
+  return (<BaselimeContext.Provider value={{ config, setConfig, queue }}>
+    <BaselimeErrorBoundary fallback={props.fallback} fallbackRender={props.fallbackRender}>
+      <WebVitals>
+        {props.children}
+      </WebVitals>
+    </BaselimeErrorBoundary>
+  </BaselimeContext.Provider>
   );
 }

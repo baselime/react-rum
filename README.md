@@ -23,7 +23,7 @@ Add the `BaselimeRum` Component at the root of your React application applicatio
 function Page({ child }) {
 
 return (
-    <BaselimeRum apiKey={publicApiKey} service="my-website">
+    <BaselimeRum apiKey={publicApiKey}>
         {child}
     </BaselimeRum>)
 }
@@ -48,16 +48,132 @@ Additionally, you can enable capturing [web vitals](https://web.dev/vitals/) fro
 - [First Input Delay (FID)](https://web.dev/fid/)
 - [Cumulative Layout Shift (CLS)](https://web.dev/cls/)
 
+Load this at the top of your application to avoid resending the web vital data. 
+
 ```tsx
+import { BaselimeRum } from '@baselime/react-rum';
 
 function Page({ child }) {
 
 return (
-    <BaselimeRum apiKey={publicApiKey} service="my-website" enableWebVitals>
+    <BaselimeRum apiKey={publicApiKey} enableWebVitals>
         {child}
     </BaselimeRum>)
 }
 ```
+
+---
+
+## Capture Errors
+
+BaselimeRum automatically captures and sends any Unhandled Errors in your application to Baselime.
+
+```tsx
+import { BaselimeRum } from '@baselime/react-rum';
+
+function Page({ child }) {
+
+return (
+    <BaselimeRum apiKey={publicApiKey} enableWebVitals fallback={<div>Something went wrong</div>}>
+        {child}
+    </BaselimeRum>)
+}
+```
+
+### Error Boundaries
+
+To provide a better UX for end users, use React [Error Boundaries](https://legacy.reactjs.org/docs/error-boundaries.html#introducing-error-boundaries).
+
+The BaselimeErrorBoundary catches errors in any of its child components, reports the error to Baselime. It works in conjunction with the `<BaselimeRum />` Component so that all errors are correlated by Page Load, and User Session.
+
+
+```jsx
+import { BaselimeErrorBoundary } from '@baselime/react-rum';
+
+function UserProfile({ child }) {
+
+return (<BaselimeErrorBoundary fallback={<div>Could not display your user profile</div>}>
+            <UserProfileImage />
+            <UserName />
+            <UserBiography />
+        </BaselimeErrorBoundary>
+    )
+}
+```
+
+
+> This is based on the excellent [react-error-boundary](https://www.npmjs.com/package/react-error-boundary) project.
+
+
+### Capture Exceptions
+
+Error Boundaries do not catch [errors inside event handlers](https://legacy.reactjs.org/docs/error-boundaries.html#how-about-event-handlers). To catch Exceptions 
+
+```jsx
+import { useBaselimeRum } from '@baselime/react-rum';
+
+function MyButtonComponent() {
+    const { captureException } = useBaselimeRum();
+
+    function handleClick(e) {
+        try { 
+                 // Do something that could throw  
+        } catch (error) {
+            // sends errors to Baselime so they can be fixed   
+            captureException(error)
+       }
+    }
+
+    return <button onClick={handleClick}>Click Me</button>
+}
+```
+---
+
+## Custom Events
+
+Capture custom events for analytics and monitoring. Like logs but with all the power of Baselime.
+
+`sendEvent(message: string, payload)`
+
+```jsx
+import { useBaselimeRum } from '@baselime/react-rum';
+
+function CheckoutComponent() {
+    const { sendEvent } = useBaselimeRum();
+
+    function handleClick() {
+
+        const data = await createImaginaryCheckoutSession()
+        sendEvent("Checkout Started", {
+            data
+        })
+    }
+
+    return <button onClick={handleClick}>Checkout</button>
+}
+
+```
+
+---
+## Setting the active user
+
+To set the User from another component then call
+
+```tsx
+import { useBaselimeRum } from '@baselime/react-rum';
+
+function UserCard({ child }) {
+    const { setUser } = useBaselimeRum();
+
+    function login(user) {
+
+        setUser(user.id);
+    }
+    return (
+        <Button onClick={login}>Login</Button>
+    }
+```
+
 
 ## Using your data
 
