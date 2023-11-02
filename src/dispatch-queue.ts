@@ -38,13 +38,15 @@ export class DispatchQueue {
         if(this.queue.length === 0) return
         const events = this.queue;
         this.queue = []
-        await fetch(`${this.config.url || "https://events.baselime.io/v1"}/${this.config.dataset || "web"}/${this.config.service || window.location.hostname}`, {
+        await fetch(`${this.config.url || "https://events.baselime.io/v1"}/${this.config.dataset || "web"}`, {
             method: 'POST',
             headers: {
                 contentType: 'application/json',
                 'x-api-key': this.config.apiKey,
                 'user-agent': '@baselime/react-rum/0.1.5',
-                'library': '@baselime/react-rum/0.1.5'
+                'library': '@baselime/react-rum/0.1.5',
+                'x-service': this.config.service || window.location.hostname,
+                'x-namespace': this.config.namespace || window.location.pathname,
             },
             body: JSON.stringify(events.map(event => ({
                 userId: this.config.userId, sessionId: this.config.sessionId, pageLoadId: this.config.pageLoadId, namespace: this.config.namespace || window.location.pathname, ...event
