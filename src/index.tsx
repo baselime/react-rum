@@ -1,5 +1,5 @@
 'use client'
-import { ReactNode, useState, useEffect, ReactElement, JSXElementConstructor, FunctionComponent, Component } from 'react'
+import { useState, useEffect, ReactElement, JSXElementConstructor, FunctionComponent, Component } from 'react'
 
 import { default as Cookies } from 'js-cookie';
 
@@ -7,7 +7,8 @@ import { BaselimeContext, BaselimeRumConfig } from './context.tsx';
 import { WebVitals } from './web-vitals.ts';
 import { DispatchQueue } from './dispatch-queue.ts';
 import { BaselimeErrorBoundary } from './error-boundary.tsx';
-import { FallbackProps, ErrorBoundaryPropsWithFallback } from 'react-error-boundary';
+import { ErrorBoundaryPropsWithFallback } from 'react-error-boundary';
+import { makeUUID } from './utils/uuid.ts';
 export { useBaselimeRum } from './context.tsx';
 export { BaselimeErrorBoundary } from './error-boundary.tsx';
 
@@ -31,13 +32,13 @@ export function BaselimeRum(props: BaselimeRumProps) {
   const sessionId = Cookies.get('baselime-session-id')
 
   if (!sessionId) {
-    Cookies.set('baselime-session-id', crypto.randomUUID())
+    Cookies.set('baselime-session-id', makeUUID())
   }
 
   const initialData: BaselimeRumConfig = {
     userId: props.userId,
     sessionId: Cookies.get('baselime-session-id'),
-    pageLoadId: crypto.randomUUID(),
+    pageLoadId: makeUUID(),
     namespace: props.namespace,
     apiKey: props.apiKey,
     dataset: props.dataset || "web",
