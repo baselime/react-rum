@@ -14,7 +14,7 @@ const apiKey = process.env.NEXT_PUBLIC_BASELIME_KEY;
 export default function RootLayout({
   children,
 }: {
-  children: any
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">

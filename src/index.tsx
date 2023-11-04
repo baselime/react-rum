@@ -25,7 +25,7 @@ export interface BaselimeRumProps {
   pageLoadId?: string,
   enableLocal?: boolean,
   enableWebVitals?: boolean
-  children: ReactElement<any, string | JSXElementConstructor<any>>
+  children: React.ReactNode
 }
 export function BaselimeRum(props: BaselimeRumProps) {
 
