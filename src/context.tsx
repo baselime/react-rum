@@ -63,7 +63,7 @@ export function useBaselimeRum() {
       const event = {
         level: 'error',
         data: { error },
-        stack: info.componentStack,
+        stack: info?.componentStack,
         error: {
             ...formattedError
         },
