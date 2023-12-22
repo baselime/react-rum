@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BaselimeErrorBoundary, useBaselimeRum } from '@baselime/react-rum';
 
 
@@ -29,7 +29,11 @@ export default function Home() {
 }
 
 function UserProfile({ }) {
-  const { sendEvent } = useBaselimeRum();
+  const { sendEvent, setUser } = useBaselimeRum();
+
+  useEffect(() => {
+    setUser("2pi3j3")
+  })
   return <button onClick={() => sendEvent("User Profile Clicked", {
     name: "John Doe",
     email: "yeyy@clickme.com"
