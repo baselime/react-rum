@@ -1,5 +1,5 @@
 'use client'
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useCallback, useContext } from 'react';
 import { DispatchQueue } from './dispatch-queue.js';
 import { formatError } from './utils/format-error.js';
 
@@ -26,17 +26,38 @@ export const BaselimeContext = createContext({} as {
 
 export function useBaselimeRum() {
   const { config, setConfig, queue } = useContext(BaselimeContext)
-  if(!config || !queue) {
+  const isOutsideBaselimeRumCtx = !config || !queue
+
+  const setUser = useCallback((userId?: string) => {
+    if (isOutsideBaselimeRumCtx) {
+      return;
+    }
+
+    return setConfig((prev) => ({ ...prev, userId }));
+  }, [isOutsideBaselimeRumCtx])
+
+  const sendEvent = useCallback((message: string, data: any = {}) => {
+    if (isOutsideBaselimeRumCtx) {
+      return;
+    }
+
+    const event = {
+      level: data?.level || 'info',
+      message: message,
+      ...data
+    }
+    queue.push(event)
+  }, [isOutsideBaselimeRumCtx])
+
+  if (isOutsideBaselimeRumCtx) {
     console.warn('Using useBaselimeRum outside of BaselimeRum context, operations will be no-ops')
 
-    return {
-      setUser: () => {},
-      sendEvent: () => {},
-    }
+    return { setUser, sendEvent }
   }
+
   return {
     config,
-    setUser: (userId: string) => setConfig((prev) => ({ ...prev, userId })),
+    setUser,
     _trackWebVital: (metric) => {
       const event = { ...metric, data: metric.entries[0], entries: undefined };
       queue.push(event)
@@ -71,13 +92,6 @@ export function useBaselimeRum() {
       }
       queue.push(event)
     },
-    sendEvent: (message: string, data: any = {}) => {
-      const event = {
-        level: data?.level || 'info',
-        message: message,
-        ...data
-      }
-      queue.push(event)
-    }
+    sendEvent
   }
 }
