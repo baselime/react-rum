@@ -33,7 +33,8 @@ function UserProfile({ }) {
 
   useEffect(() => {
     setUser("2pi3j3")
-  })
+  });
+  
   return <button onClick={() => sendEvent("User Profile Clicked", {
     name: "John Doe",
     email: "yeyy@clickme.com"

@@ -1,7 +1,5 @@
 import { BaselimeRumConfig } from "./context.tsx";
 
-
-
 export class DispatchQueue {
     queue: any[];
     queueSize: 500;
@@ -15,19 +13,16 @@ export class DispatchQueue {
 
     push(data) {
         this.queue.push(data);
-        console.log('push', this.queue.length)
         if (this.queue.length >= this.queueSize) {
             if (this.timeout) {
                 clearTimeout(this.timeout);
                 this.timeout = null;
             }
-            console.log('size exceeded: flush')
             return this.flush();
         }
 
         if (!this.timeout) {
             this.timeout = setTimeout(() => {
-                console.log('timeout: flush', this.queue.length)
                 this.flush();
                 this.timeout = null;
             }, this.duration)
