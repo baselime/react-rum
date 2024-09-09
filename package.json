@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup",
     "dev": "npm link && tsup --watch --ignore-watch node_modules --ignore-watch example --ignore-watch .github & cd example && npm link @baselime/react-rum && npm run dev",
+    "prerelease": "npm run build",
     "release": "release-it"
   },
   "tsup": {

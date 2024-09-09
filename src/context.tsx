@@ -50,9 +50,9 @@ export function useBaselimeRum() {
         message: message,
         ...data,
       };
-      queue.push(event);
+      queue.push(event, config);
     },
-    [isOutsideBaselimeRumCtx]
+    [isOutsideBaselimeRumCtx, config]
   );
 
   const captureException = useCallback(
@@ -74,7 +74,7 @@ export function useBaselimeRum() {
           causedBy: component,
           message: `${error.name}: ${error.message}`,
         };
-        return queue.push(event);
+        return queue.push(event, config);
       }
 
       const formattedError = formatError(error);
@@ -87,9 +87,9 @@ export function useBaselimeRum() {
         },
         message: `${error.name}: ${error.message}`,
       };
-      queue.push(event);
+      queue.push(event, config);
     },
-    [isOutsideBaselimeRumCtx]
+    [isOutsideBaselimeRumCtx, config]
   );
 
   const _trackWebVital = useCallback(
@@ -99,9 +99,9 @@ export function useBaselimeRum() {
       }
 
       const event = { ...metric, data: metric.entries[0], entries: undefined };
-      queue.push(event);
+      queue.push(event, config);
     },
-    [isOutsideBaselimeRumCtx]
+    [isOutsideBaselimeRumCtx, config]
   );
 
   if (isOutsideBaselimeRumCtx) {

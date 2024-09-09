@@ -31,14 +31,12 @@ export default function Home() {
 function UserProfile({ }) {
   const { sendEvent, setUser } = useBaselimeRum();
 
-  useEffect(() => {
+  return <button onClick={() => {
     setUser("2pi3j3")
-  });
-  
-  return <button onClick={() => sendEvent("User Profile Clicked", {
+    sendEvent("User Profile Clicked", {
     name: "John Doe",
     email: "yeyy@clickme.com"
-  })}>
+  })}}>
     User Profile
   </button>
 }

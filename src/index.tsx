@@ -27,6 +27,8 @@ export interface BaselimeRumProps {
   enableWebVitals?: boolean
   children: React.ReactNode
 }
+
+const queue = new DispatchQueue()
 export function BaselimeRum(props: BaselimeRumProps) {
 
   const sessionId = Cookies.get('baselime-session-id')
@@ -50,16 +52,6 @@ export function BaselimeRum(props: BaselimeRumProps) {
 
 
   const [config, setConfig] = useState(initialData)
-
-  const [queue, setQueue] = useState(new DispatchQueue({ config }))
-
-  useEffect(() => {
-    /** If config changes rebuild the queue */
-    setQueue(new DispatchQueue({ config }))
-    return () => {
-      queue.flush()
-    }
-  }, [config])
 
   return (<BaselimeContext.Provider value={{ config, setConfig, queue }}>
     <BaselimeErrorBoundary fallback={props.fallback} fallbackRender={props.fallbackRender}>
