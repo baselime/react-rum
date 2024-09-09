@@ -28,7 +28,6 @@ export class DispatchQueue {
     }
 
     async flush(config: BaselimeRumConfig) {
-        console.log(config)
         if(this.queue.length === 0) return
         const events = this.queue;
         this.queue = []
